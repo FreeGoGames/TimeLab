@@ -1,6 +1,0 @@
-<Solution>
-  <Project Path="src/TimeLab.App/TimeLab.App.csproj" Id="bac362b4-5ec0-4dd8-afa5-a6546d6f3a53" />
-  <Project Path="src/TimeLab.Application/TimeLab.Application.csproj" Id="2b9df424-22aa-4e94-8bb6-4133895f80c1" />
-  <Project Path="src/TimeLab.Core/TimeLab.Core.csproj" Id="fdeafd54-27a9-457f-8e59-2c32b591142d" />
-  <Project Path="src/TimeLab.Infrastructure/TimeLab.Infrastructure.csproj" Id="7aedfaa5-b69a-4d3e-9104-a27e6fd5fa17" />
-</Solution>
