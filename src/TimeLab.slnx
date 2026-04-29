@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="TimeLab.App/TimeLab.App.csproj" />
+  <Project Path="TimeLab.Application/TimeLab.Application.csproj" />
+  <Project Path="TimeLab.Core/TimeLab.Core.csproj" />
+  <Project Path="TimeLab.Infrastructure/TimeLab.Infrastructure.csproj" />
+</Solution>
