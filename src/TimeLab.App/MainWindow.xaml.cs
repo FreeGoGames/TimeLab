@@ -1,6 +1,7 @@
 using System.Windows;
 using TimeLab.App.ViewModels;
 using TimeLab.Application;
+using TimeLab.Infrastructure;
 
 namespace TimeLab.App;
 
@@ -10,8 +11,8 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
 
-        var taskRepo = new InMemoryTaskRepository();
-        var sessionRepo = new InMemorySessionRepository();
+        var taskRepo = new JsonTaskRepository();
+        var sessionRepo = new JsonSessionRepository();
 
         var taskService = new TaskService(taskRepo);
         var pomodoroService = new PomodoroService(sessionRepo);

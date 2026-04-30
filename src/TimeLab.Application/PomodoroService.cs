@@ -6,6 +6,7 @@ public class PomodoroService
 {
     private readonly ISessionRepository _sessionRepo;
     private readonly TimerState _timerState = new();
+    private DateTime _sessionStartTime;
 
     public PomodoroService(ISessionRepository sessionRepo)
     {
@@ -17,7 +18,10 @@ public class PomodoroService
     public void Start()
     {
         if (_timerState.Status == TimerStatus.Idle)
+        {
             _timerState.ElapsedTime = TimeSpan.Zero;
+            _sessionStartTime = DateTime.Now;
+        }
 
         _timerState.Status = TimerStatus.Running;
         _timerState.StartTime = DateTime.Now;
@@ -47,7 +51,7 @@ public class PomodoroService
 
         var session = new PomodoroSession
         {
-            StartTime = now - _timerState.ElapsedTime,
+            StartTime = _sessionStartTime,
             EndTime = now,
             Duration = _timerState.ElapsedTime
         };

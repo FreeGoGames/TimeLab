@@ -28,7 +28,7 @@ public class MainViewModel : ViewModelBase
         PauseCommand = new RelayCommand(Pause, () => Status == TimerStatus.Running);
         StopCommand = new RelayCommand(async () => await StopAsync(), () => Status != TimerStatus.Idle);
 
-        Task.Run(async () => await LoadAsync());
+        _ = LoadAsync();
     }
 
     // ── Todo ──

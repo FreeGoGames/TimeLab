@@ -27,7 +27,7 @@ public class TaskService
     {
         var tasks = await _taskRepo.GetAllAsync();
         var task = tasks.FirstOrDefault(t => t.Id == id);
-        if (task is null) return;
+        if (task is null || task.IsCompleted) return;
 
         task.IsCompleted = true;
         task.CompletedAt = DateTime.Now;
