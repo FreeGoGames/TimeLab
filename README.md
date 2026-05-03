@@ -7,6 +7,6 @@ TimeLab，一个简单的 WPF 应用，为了验证Vibe Coding所创建的项目
 
 这是一个 MVP 项目，目标是保持简单和清晰，不做复杂设计。
 
-Vibe Coding 的文档项目:
+项目构建 的文档:
 
-https://github.com/FreeGoStudio/AiLearn
+https://github.com/FreeGoStudio/AiLearn/blob/main/%E6%96%87%E6%A1%A3/3.VibeCoding%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md
