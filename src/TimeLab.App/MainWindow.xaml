@@ -60,7 +60,7 @@
                     <TextBlock Text="{Binding ElapsedTimeDisplay}" FontSize="36"
                                HorizontalAlignment="Center" Margin="0,10" FontFamily="Consolas" />
 
-                    <ComboBox ItemsSource="{Binding Tasks}"
+                    <ComboBox ItemsSource="{Binding ActiveTasks}"
                               SelectedItem="{Binding SelectedTask}"
                               DisplayMemberPath="Title"
                               IsEditable="False"
@@ -79,21 +79,7 @@
 
             <!-- Session Log -->
             <GroupBox Grid.Row="1" Header="专注记录">
-                <ListBox ItemsSource="{Binding Sessions}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Margin="0,2" FontFamily="Consolas">
-                                <TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0:hh\:mm\:ss} — {1:HH:mm} ~ {2:HH:mm}">
-                                        <Binding Path="Duration" />
-                                        <Binding Path="StartTime" />
-                                        <Binding Path="EndTime" />
-                                    </MultiBinding>
-                                </TextBlock.Text>
-                            </TextBlock>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                <ListBox ItemsSource="{Binding Sessions}" FontFamily="Consolas" />
             </GroupBox>
         </Grid>
     </Grid>

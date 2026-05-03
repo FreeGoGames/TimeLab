@@ -34,6 +34,7 @@ public class MainViewModel : ViewModelBase
     // ── Todo ──
 
     public ObservableCollection<TaskItem> Tasks { get; } = new();
+    public ObservableCollection<TaskItem> ActiveTasks { get; } = new();
 
     private TaskItem? _selectedTask;
     public TaskItem? SelectedTask
@@ -172,7 +173,7 @@ public class MainViewModel : ViewModelBase
 
     // ── Session Log ──
 
-    public ObservableCollection<PomodoroSession> Sessions { get; } = new();
+    public ObservableCollection<string> Sessions { get; } = new();
 
     // ── Load ──
 
@@ -186,15 +187,30 @@ public class MainViewModel : ViewModelBase
     {
         var tasks = await _taskService.GetAllTasksAsync();
         Tasks.Clear();
+        ActiveTasks.Clear();
         foreach (var t in tasks)
+        {
             Tasks.Add(t);
+            if (!t.IsCompleted)
+                ActiveTasks.Add(t);
+        }
     }
 
     private async Task RefreshSessionsAsync()
     {
         var sessions = await _pomodoroService.GetAllSessionsAsync();
+        var taskNames = Tasks.ToDictionary(t => t.Id, t => t.Title);
+
         Sessions.Clear();
         foreach (var s in sessions)
-            Sessions.Add(s);
+        {
+            var taskName = s.TaskId is not null && taskNames.TryGetValue(s.TaskId.Value, out var name)
+                ? name
+                : "";
+            var display = taskName.Length > 0
+                ? $"{s.Duration:hh\\:mm\\:ss}  {s.StartTime:HH:mm} ~ {s.EndTime:HH:mm}  {taskName}"
+                : $"{s.Duration:hh\\:mm\\:ss}  {s.StartTime:HH:mm} ~ {s.EndTime:HH:mm}";
+            Sessions.Add(display);
+        }
     }
 }
