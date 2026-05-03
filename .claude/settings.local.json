@@ -3,7 +3,10 @@
     "allow": [
       "Bash(dotnet --version)",
       "Bash(dotnet new *)",
-      "Bash(dotnet add *)"
+      "Bash(dotnet add *)",
+      "Bash(dotnet build *)",
+      "Bash(taskkill /PID 13548 /F)",
+      "Bash(cmd.exe //c \"taskkill /PID 13548 /F\")"
     ]
   }
 }

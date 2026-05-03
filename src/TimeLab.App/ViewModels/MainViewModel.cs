@@ -35,6 +35,13 @@ public class MainViewModel : ViewModelBase
 
     public ObservableCollection<TaskItem> Tasks { get; } = new();
 
+    private TaskItem? _selectedTask;
+    public TaskItem? SelectedTask
+    {
+        get => _selectedTask;
+        set => Set(ref _selectedTask, value);
+    }
+
     private string _newTaskTitle = string.Empty;
     public string NewTaskTitle
     {
@@ -80,6 +87,7 @@ public class MainViewModel : ViewModelBase
             if (Set(ref _status, value))
             {
                 OnPropertyChanged(nameof(IsRunning));
+                OnPropertyChanged(nameof(StatusText));
                 ((RelayCommand)StartCommand).RaiseCanExecuteChanged();
                 ((RelayCommand)PauseCommand).RaiseCanExecuteChanged();
                 ((RelayCommand)StopCommand).RaiseCanExecuteChanged();
@@ -89,11 +97,26 @@ public class MainViewModel : ViewModelBase
 
     public bool IsRunning => Status == TimerStatus.Running;
 
+    public string StatusText => Status switch
+    {
+        TimerStatus.Idle => "空闲",
+        TimerStatus.Running => "运行中",
+        TimerStatus.Paused => "已暂停",
+        _ => ""
+    };
+
     private string _elapsedTimeDisplay = "00:00:00";
     public string ElapsedTimeDisplay
     {
         get => _elapsedTimeDisplay;
         set => Set(ref _elapsedTimeDisplay, value);
+    }
+
+    private string _linkedTaskTitle = string.Empty;
+    public string LinkedTaskTitle
+    {
+        get => _linkedTaskTitle;
+        set => Set(ref _linkedTaskTitle, value);
     }
 
     public ICommand StartCommand { get; }
@@ -102,8 +125,9 @@ public class MainViewModel : ViewModelBase
 
     private void Start()
     {
-        _pomodoroService.Start();
+        _pomodoroService.Start(SelectedTask?.Id);
         Status = TimerStatus.Running;
+        UpdateLinkedTaskTitle();
     }
 
     private void Pause()
@@ -122,6 +146,7 @@ public class MainViewModel : ViewModelBase
     private void OnTimerTick(object? sender, EventArgs e)
     {
         var state = _pomodoroService.GetTimerState();
+        var prevStatus = Status;
         Status = state.Status;
 
         var display = state.Status switch
@@ -132,6 +157,17 @@ public class MainViewModel : ViewModelBase
         };
 
         ElapsedTimeDisplay = display.ToString(@"hh\:mm\:ss");
+
+        if (Status != prevStatus && Status == TimerStatus.Idle)
+            LinkedTaskTitle = string.Empty;
+    }
+
+    private void UpdateLinkedTaskTitle()
+    {
+        var taskId = _pomodoroService.CurrentTaskId;
+        LinkedTaskTitle = taskId is null
+            ? string.Empty
+            : Tasks.FirstOrDefault(t => t.Id == taskId)?.Title ?? string.Empty;
     }
 
     // ── Session Log ──

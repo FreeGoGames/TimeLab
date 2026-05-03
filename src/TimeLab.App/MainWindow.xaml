@@ -18,10 +18,10 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <TextBlock Text="Tasks" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" />
+            <TextBlock Text="任务" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" />
 
             <DockPanel Grid.Row="1" Margin="0,0,0,10">
-                <Button DockPanel.Dock="Right" Content="Add" Width="50"
+                <Button DockPanel.Dock="Right" Content="添加" Width="50"
                         Command="{Binding AddTaskCommand}" Margin="5,0,0,0" />
                 <TextBox Text="{Binding NewTaskTitle, UpdateSourceTrigger=PropertyChanged}" />
             </DockPanel>
@@ -31,10 +31,10 @@
                     <DataTemplate>
                         <DockPanel Margin="0,2">
                             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                                <Button Content="Done" Width="40"
+                                <Button Content="完成" Width="40"
                                         Command="{Binding DataContext.CompleteTaskCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
                                         CommandParameter="{Binding}" Margin="2,0" />
-                                <Button Content="Del" Width="30"
+                                <Button Content="删除" Width="40"
                                         Command="{Binding DataContext.DeleteTaskCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
                                         CommandParameter="{Binding}" />
                             </StackPanel>
@@ -54,22 +54,31 @@
             </Grid.RowDefinitions>
 
             <!-- 番茄钟 -->
-            <GroupBox Grid.Row="0" Header="Pomodoro Timer" Margin="0,0,0,10">
+            <GroupBox Grid.Row="0" Header="番茄钟" Margin="0,0,0,10">
                 <StackPanel Margin="10">
-                    <TextBlock Text="{Binding Status, StringFormat='Status: {0}'}" FontSize="14" />
+                    <TextBlock Text="{Binding StatusText, StringFormat='状态: {0}'}" FontSize="14" />
                     <TextBlock Text="{Binding ElapsedTimeDisplay}" FontSize="36"
                                HorizontalAlignment="Center" Margin="0,10" FontFamily="Consolas" />
 
+                    <ComboBox ItemsSource="{Binding Tasks}"
+                              SelectedItem="{Binding SelectedTask}"
+                              DisplayMemberPath="Title"
+                              IsEditable="False"
+                              Margin="0,0,0,8" />
+
+                    <TextBlock Text="{Binding LinkedTaskTitle, StringFormat='关联: {0}'}"
+                               FontSize="12" Foreground="Gray" Margin="0,0,0,5" />
+
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button Content="Start" Width="70" Margin="3" Command="{Binding StartCommand}" />
-                        <Button Content="Pause" Width="70" Margin="3" Command="{Binding PauseCommand}" />
-                        <Button Content="Stop" Width="70" Margin="3" Command="{Binding StopCommand}" />
+                        <Button Content="开始" Width="70" Margin="3" Command="{Binding StartCommand}" />
+                        <Button Content="暂停" Width="70" Margin="3" Command="{Binding PauseCommand}" />
+                        <Button Content="停止" Width="70" Margin="3" Command="{Binding StopCommand}" />
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
 
             <!-- Session Log -->
-            <GroupBox Grid.Row="1" Header="Session Log">
+            <GroupBox Grid.Row="1" Header="专注记录">
                 <ListBox ItemsSource="{Binding Sessions}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
